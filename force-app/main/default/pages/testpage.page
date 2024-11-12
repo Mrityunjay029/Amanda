@@ -1,0 +1,6 @@
+<apex:page Controller="test_cls">
+
+    HI testing begins!!!
+    Transid{!transid}
+
+</apex:page>

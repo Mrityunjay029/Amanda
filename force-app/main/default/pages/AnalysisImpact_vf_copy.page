@@ -1,0 +1,1488 @@
+<apex:page sidebar="false" controller="ImpactAnalysis_Controller" id="pgId" >
+
+    <apex:stylesheet value="{!URLFOR($Resource.SLDS090, 'assets/styles/salesforce-lightning-design-system-vf.css')}" />  
+   <!-- <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.2/themes/smoothness/jquery-ui.css" />
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.11.4/themes/smoothness/jquery-ui.css"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>        
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>         
+    <link rel="stylesheet" href="/resources/demos/style.css"/>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <script src="//code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+    <link rel="stylesheet" href="/resources/demos/style.css"/>-->
+    <apex:includeScript value="{!$Resource.jquery1102}"/>
+    <apex:includeScript value="{!$Resource.chartloader}"/>
+    <apex:includeScript value="{!$Resource.jqueryui}"/>
+         
+    
+    <style>
+            .heads{
+                max-width: 100%;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+                display: block;
+                text-decoration: none;
+                cursor: pointer;
+                height: 48px;
+                line-height: 48px;
+                padding: 0 24px;
+                color: #54698d;
+                background-clip: padding-box;
+                border-left: 1px solid transparent;
+                border-right: 1px solid transparent;
+            }
+             .btnnavv{
+                 width: 100px !important;
+                padding: 1px !important;
+                color: white !important;
+                border-radius: .25em !important;
+                border-color: #007fba !important;
+                background-color: #007fba !important;
+                text-decoration: none !important;
+                
+                 
+             }
+            .buttonclass {
+               -moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+               -webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+               box-shadow:inset 0px 1px 0px 0px #54a3f7;
+               background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #007dc1), color-stop(1, #0061a7));
+               background:-moz-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+               background:-webkit-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+               background:-o-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+               background:-ms-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+               background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+               filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dc1', endColorstr='#0061a7',GradientType=0);
+               background-color:#007dc1;
+               -moz-border-radius:37px;
+               -webkit-border-radius:37px;
+               border-radius:37px;
+               border:1px solid #124d77;
+               display:inline-block;
+               cursor:pointer;
+               color:#ffffff;
+               font-family:Times New Roman;
+               font-size:15px;
+               font-weight:bold;
+               font-style:italic;
+               padding:8px 24px;
+               text-decoration:none;
+               text-shadow:0px 1px 0px #154682;
+            }
+            .buttonclass:hover {
+               background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
+               background:-moz-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+               background:-webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+               background:-o-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+               background:-ms-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+               background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+               filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0061a7', endColorstr='#007dc1',GradientType=0);
+               background-color:#0061a7;
+            }
+            .buttonclass:active {
+               position:relative;
+               top:1px;
+            }
+            table#t01 tr:nth-child(even) {
+                background-color: #eee;
+            }
+            table#t01 tr:nth-child(odd) {
+                background-color:#fff;
+            }
+
+            .css3gradient{
+                 width:547px;height:100px;
+                 background-color:#ffffff;
+                 filter:progid:DXImageTransform.Microsoft.gradient(GradientType=0,startColorstr=#ffffff, endColorstr= #0099e6);
+                 background-image:-moz-linear-gradient(top, #ffffff 0%,  #0099e6 100%);
+                 background-image:-webkit-linear-gradient(top, #ffffff 0%,  #0099e6 100%);
+                 background-image:-ms-linear-gradient(top, #ffffff 0%,  #0099e6 100%);
+                 background-image:linear-gradient(top, #ffffff 0%,  #0099e6 100%);
+                 background-image:-o-linear-gradient(top, #ffffff 0%,  #0099e6 100%);
+                 background-image:-webkit-gradient(linear, right top, right bottom, color-stop(0%,#ffffff), color-stop(100%, #0099e6));}
+                 
+            .myButton {
+                -moz-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+                -webkit-box-shadow:inset 0px 1px 0px 0px #54a3f7;
+                box-shadow:inset 0px 1px 0px 0px #54a3f7;
+                background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #007dc1), color-stop(1, #0061a7));
+                background:-moz-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+                background:-webkit-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+                background:-o-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+                background:-ms-linear-gradient(top, #007dc1 5%, #0061a7 100%);
+                background:linear-gradient(to bottom, #007dc1 5%, #0061a7 100%);
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#007dc1', endColorstr='#0061a7',GradientType=0);
+                background-color:#007dc1;
+                -moz-border-radius:42px;
+                -webkit-border-radius:42px;
+                border-radius:42px;
+                border:1px solid #124d77;
+                display:inline-block;
+                cursor:pointer;
+                color:#ffffff;
+                font-family:Georgia;
+                font-size:16px;
+                padding:6px 16px;
+                text-decoration:none;
+                text-shadow:0px 1px 0px #154682;
+            }
+            .myButton:hover {
+                background:-webkit-gradient(linear, left top, left bottom, color-stop(0.05, #0061a7), color-stop(1, #007dc1));
+                background:-moz-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+                background:-webkit-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+                background:-o-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+                background:-ms-linear-gradient(top, #0061a7 5%, #007dc1 100%);
+                background:linear-gradient(to bottom, #0061a7 5%, #007dc1 100%);
+                filter:progid:DXImageTransform.Microsoft.gradient(startColorstr='#0061a7', endColorstr='#007dc1',GradientType=0);
+                background-color:#0061a7;
+            }
+            .myButton:active {
+                position:relative;
+                top:1px;
+            }           
+        </style>
+                <style>
+            .convertbtn {
+                background:none!important;
+                border:none!important; 
+                padding:0!important;
+                font-family:arial,sans-serif; 
+                color:#069;
+                text-decoration:underline;
+                cursor:pointer;
+            }
+            .loader {
+                border: 16px solid #f3f3f3;
+                border-radius: 50%;
+                border-top: 16px solid #3498db;
+                width: 120px;
+                height: 120px;
+                -webkit-animation: spin 2s linear infinite;
+                animation: spin 2s linear infinite;
+            }
+        </style>
+        
+    <script>
+        //function invoked on clicking field analysis link (to make autocomplete work on rerender)
+        function onrerrender(jdata){
+        
+            var string=JSON.stringify(jdata);  
+            var obj = JSON.parse(string);                 
+              
+            $( "#selectobject" ).autocomplete({         
+                source: obj,
+                
+                focus: function( event, ui ) {
+                    
+                     $('.objinput').val(ui.item.label);
+                      return false;
+                },
+                select: function( event, ui ) {
+                    // $('[id$=Objsec]').hide();                  
+                    selectedobject(this.value,this.value);
+                    return false;
+                }
+            });         
+        }
+        function showVarifySettingPopop(){
+            $("#varifysettingPopup").addClass("slds-fade-in-open");
+            $("#varifysettingPopup").removeClass("slds-modal__close");
+            $("#varifysettingPopupback").addClass("slds-modal-backdrop--open");
+            $("#varifysettingPopupback").removeClass("slds-modal-backdrop--close");
+                        
+        }
+        function hideVarifySettingPopop(){
+            $('#varifysettingPopup').removeClass('slds-fade-in-open');
+            $('#varifysettingPopup').addClass('slds-modal__close');
+            $('#varifysettingPopupback').removeClass('slds-modal-backdrop--open');
+            $('#varifysettingPopupback').addClass('slds-modal-backdrop--close');
+        }
+    </script>
+    <script>        
+        $(document).ready(function(){
+            var isOnload = {!isOnLoad};
+            //if(isOnload == true)
+                //createLicenseRecord();
+        });    
+    </script>
+    <script>
+    /**
+* encode special HTML characters, so text is safe when building HTML dynamically
+* @param {String} text the text to encode
+* @return {String}
+*/
+    var encodeHTML = (function() {
+        
+        var encodeHTMLmap = {
+            "&" : "&amp;",
+            "'" : "&#39;",
+            '"' : "&quot;",
+            "<" : "&lt;",
+            ">" : "&gt;"
+        };
+        
+        /**
+    * encode character as HTML entity
+    * @param {String} ch character to map to entity
+    * @return {String}
+    */
+        function encodeHTMLmapper(ch) {
+            return encodeHTMLmap[ch];
+        }
+        
+        return function(text) {
+            // search for HTML special characters, convert to HTML entities
+            return text.replace(/[&"'<>]/g, encodeHTMLmapper);
+        };
+        
+    })();
+    
+    /**
+* encode special JavaScript characters, so text is safe when building JavaScript/HTML dynamically
+* NB: conservatively assumes that HTML special characters are unsafe, and encodes them too
+* @param {String} text
+* @return {String}
+*/
+    var encodeJS = (function() {
+        
+        /**
+    * encode character as Unicode hexadecimal escape sequence
+    * @param {String} ch character to encode
+    * @return {String}
+    */
+        function toUnicodeHex(ch) {
+            var c = ch.charCodeAt(0),
+                s = c.toString(16);
+            
+            // see if we can use 2-digit hex code
+            if (c < 0x100) {
+                return "\\x" + ("00" + s).slice(-2);
+            }
+            
+            // must use 4-digit hex code
+            return "\\u" + ("0000" + s).slice(-4);
+        }
+        
+        return function(text) {
+            // search for JavaScript and HTML special characters, convert to Unicode hex
+            return text.replace(/[\\\/"'&<>\x00-\x1f\x7f-\xa0\u2000-\u200f\u2028-\u202f]/g, toUnicodeHex);
+        };
+        
+    })();
+    </script>
+    
+    
+    <script>
+                    
+        $(document).ready(function () {
+           
+                                           
+             $('[id$=selectField]').autocomplete({
+                  
+                  focus: function( event, ui ) {
+                      
+                    
+                     $('.fieldinp').val(ui.item.label);
+                     $('[id$=label]').val(ui.item.label);
+                     
+                      return false;
+                },
+                select: function( event, ui ) {
+                      
+                      $('[id$=fieldname]').val(ui.item.APIname); 
+                      $('.waitingDiv').show();
+                      apexcall();                   
+                    
+                    return false;
+                }                                                                                                                        
+            });           
+        });
+        
+        function calltempmethod(){  
+            
+            tempmethod();
+            return false;
+        }
+        
+        google.charts.load('current', {'packages':['corechart']});
+        google.charts.setOnLoadCallback(initialization);
+        var fieldapi;var pid;
+        
+        function initialization(){ } 
+        
+        function selectedobject(obj,api){
+          
+            if(count  == 0){
+                 $('.objinput').val('');
+                alert('Please tick at least one Component first!!!');
+                $('[id$=Objsec]').show();
+            }
+            else{
+            $('[id$=Objsec]').hide();
+            $('[id$=mainheader]').hide();
+             $('[id$=impactanalyse]').hide();
+            $('[id$=SelectedObj]').val(api);
+            $('.objinput').val('');
+            objselecteds();      
+           }
+           return false;            
+        }
+              
+    
+            
+            var obj ;
+            var IDArray=[];
+            var NameArray=[];
+            var Entityarray=[];
+            
+        //function invoked on selecting field after remote action is called where strin contains JSON response
+        function showjson(strin,layobj,load){  
+            console.log('data@@@@@'+load);
+          
+            if(load == 'false'){
+                  var field =  $('[id$=label]').val();               
+                
+                //done to add field in header
+                if($(encodeJS('#fieldlis')).find(encodeJS('.slds-tabs--path__item')).size()==4){
+                
+                    $(encodeJS('#fieldlis')).find(encodeJS('.slds-tabs--path__item')).eq(3).remove(); 
+                    $(encodeJS('#fieldlis')).append(encodeJS('<li class="slds-tabs--path__item slds-is-current"role="presentation" style="width:auto;"><a class="slds-tabs--path__link " aria-selected="true"  tabindex="0" role="tab" href="#void" aria-live="assertive" ><span class="slds-tabs--path__title">'+field+'</span>')); 
+                    $(encodeJS('#fieldlis')).append(encodeJS('</a>'));
+                    $(encodeJS('#fieldlis')).append(encodeJS('</li>'));  
+                } else{                       
+                    if($(encodeJS('#fieldlis')).find(encodeJS('.slds-tabs--path__item')	).size()<4){
+                        $(encodeJS('#fieldlis')).append(encodeJS('<li class="slds-tabs--path__item slds-is-current"role="presentation" style="width:auto;"><a class="slds-tabs--path__link " aria-selected="true"  tabindex="0" role="tab" href="#void" aria-live="assertive" ><span class="slds-tabs--path__title">'+field+'</span>')); 
+                        $(encodeJS('#fieldlis')).append(encodeJS('</a>'));
+                        $(encodeJS('#fieldlis')).append(encodeJS('</li>'));
+                    } 
+                }   
+                
+                var outer = [];
+                var components=[];
+
+                if('{!classtrigger}' == 'true')      {   
+                    components.push("Apex Class","Apex Trigger");
+                    if(strin =='')                         
+                        outer.push(["Apex Class",0],["Apex Trigger",0]);                                                
+                }
+                if('{!playout}' == 'true'){  
+                    components.push("Page Layout");
+                    if(strin =='')
+                        outer.push(["Page Layout",0]);                                        
+                }
+                if('{!workflow}' == 'true') {
+                    components.push("WorkFlow Rule");  
+                    if(strin =='')
+                        outer.push(["WorkFlow Rule",0]);
+                }
+                if('{!fieldupdate}' == 'true') {
+                    components.push("Workflow Field Update");    
+                    if(strin =='')
+                        outer.push(["Workflow Field Update",0]);
+                    }
+                if('{!validation}' == 'true') { 
+                    components.push("Validation Rule");  
+                    if(strin =='')
+                        outer.push(["Validation Rule",0]);
+                }
+                if('{!form}' == 'true') {
+                    components.push("Formula Field"); 
+                    if(strin =='')
+                        outer.push(["Formula Field",0]);
+                }
+                if('{!email}' == 'true') {
+                     components.push("Email Template");   
+                    if(strin =='')
+                        outer.push(["Email Template",0]);
+                }
+                if('{!pages}' == 'true') { 
+                    components.push("Apex Page");     
+                    if(strin =='')
+                        outer.push(["Apex Page",0]);
+                }
+                if('{!flowsAndProcess}' == 'true') {
+                    components.push("Flows & Processes"); 
+                    if(strin =='')
+                        outer.push(["Flows & Processes",0]);
+                }
+                if('{!approv}' == 'true') {
+                    components.push("Approval Process");   
+                    if(strin =='')
+                        outer.push(["Approval Process",0]);
+                }
+                if('{!reports}' == 'true') {
+                    components.push("Reports");   
+                    if(strin =='')
+                        outer.push(["Reports",0]);
+                }
+                
+                if('{!classtrigger}' == 'true')      {                
+                        $('#tab-default-1').addClass("slds-show");
+                        $('#cls').addClass("slds-active");
+                        
+                    }
+                    else if('{!playout}' == 'true'){
+                        $('#tab-default-4').addClass("slds-show");
+                        $('#lay').addClass("slds-active");
+                    }
+                    else if('{!workflow}' == 'true') {
+                            $('#tab-default-3').addClass("slds-show");
+                             $('#work').addClass("slds-active");
+                        }
+                    else if('{!fieldupdate}' == 'true') {
+                            $('#tab-default-5').addClass("slds-show");
+                             $('#fupdate').addClass("slds-active");
+                        }
+                    else if('{!validation}' == 'true') {
+                            $('#tab-default-6').addClass("slds-show");
+                             $('#valid').addClass("slds-active");
+                        }
+                    else if('{!form}' == 'true') {
+                            $('#tab-default-7').addClass("slds-show");
+                             $('#form').addClass("slds-active");
+                        }
+                    else if('{!email}' == 'true') {
+                            $('#tab-default-8').addClass("slds-show");
+                             $('#email').addClass("slds-active");
+                        }
+                    else if('{!pages}' == 'true') { 
+                            $('#tab-default-9').addClass("slds-show");
+                             $('#page').addClass("slds-active");
+                        }
+                    else if('{!flowsAndProcess}' == 'true') {
+                            $('#tab-default-10').addClass("slds-show");
+                             $('#flow').addClass("slds-active");
+                        }
+                    else if('{!approv}' == 'true') {
+                            $('#tab-default-11').addClass("slds-show");
+                             $('#approv').addClass("slds-active");
+                        }
+                    else if('{!reports}' == 'true') {
+                            $('#tab-default-12').addClass("slds-show");
+                             $('#reports').addClass("slds-active");
+                        }
+                    
+            
+                var chartid;
+            
+                $('[id$=impactanalyse]').show();
+                $('[id$=fieldsec]').hide();                       
+                chartid='field_chart';                  
+            
+                var options = {
+                    title : 'Impacted Components',                        
+                    seriesType: 'bars',
+                    backgroundColor: "transparent",                       
+                    legend: "top",  
+                    bars: 'horizontal',                                              
+                    bar: {groupWidth: 30}
+
+                };  
+                //if chart is empty if part is executed
+                if(strin ==''){
+                    //$('[id$=Dummy]').hide();
+                    $('.buttonclass').hide(); 
+                        var data1 = new google.visualization.DataTable();
+
+                        data1.addColumn('string', 'ComponentType');
+                        data1.addColumn('number', '');
+                        for(var k=0;k<=outer.length;k++){
+                             data1.addRow(outer[k]);
+                        }
+                                   
+                        var chart = new google.visualization.ComboChart(document.getElementById(chartid));
+                        chart.draw(data1, options);
+                    }
+                    else
+                        $('.buttonclass').show(); 
+                    
+                    obj = JSON.parse(strin); //json object contains response from controller
+                                
+                    var JSonPDFArray=[];
+                    for(var i=0;i<obj.length;i++){   //used to send json data for pdf without body content
+                        var JSONObj = new Object();                       
+                        JSONObj.type = obj[i].type;
+                        JSONObj.Id = obj[i].Id;
+                        JSONObj.Name =obj[i].Name;                                       
+                        JSonPDFArray.push(JSONObj);
+                    }
+                    var jsonstringforPDF = JSON.stringify(JSonPDFArray);
+                                   
+                    $('[id$=Jsonid]').val(jsonstringforPDF);
+                   
+                    var map = new Object(); 
+                                          
+                    
+                    var validationIDandname = new Object();
+                   
+                    //iterate through Json object array that calculate number of apex component are there.
+                    for(var i=0;i<obj.length;i++){  
+                      
+                           
+                        if(map[obj[i].type]==null)                    
+                            map[obj[i].type]=1;                                        
+                        else                  
+                            map[obj[i].type]=map[obj[i].type]+1;                                 
+                    }                    
+                    
+
+                    var outerArray =[];
+                    var ImpactedComponents = [];
+                      
+                    for(var j=0;j<components.length;j++){
+                                   
+                        if (components[j] in map){
+                            ImpactedComponents.push(components[j]);
+                            var innerArray= []; 
+                            innerArray.push(components[j],map[components[j]]);                      
+                            outerArray.push(innerArray);
+                        }else{
+                            var innerArray= []; 
+                            innerArray.push(components[j],0);                      
+                            outerArray.push(innerArray);                            
+                        }
+                    }
+                    
+                    var data = new google.visualization.DataTable();
+                    
+                    data.addColumn('string', 'ComponentType');
+                    data.addColumn('number', '');
+                    
+                    for(var k=0;k<outerArray.length;k++){
+                        data.addRow(outerArray[k]);                   
+                    }
+                                  
+                    var chart = new google.visualization.ComboChart(document.getElementById(chartid));
+                    chart.draw(data, options); //used to draw google chart                   
+                   
+                    $('[id$=impacted]').val(ImpactedComponents);
+                    var width;
+                                                         
+                    for(var c=0;c<ImpactedComponents.length;c++){
+                       
+                    
+                        if(c==0){
+                              width =16; 
+                              console.log('1.dynamically creating tabs');                       
+                            $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('<li class="slds-tabs--scoped__item slds-text-heading--label slds-active " title="Item One" role="presentation"><a class="slds-tabs--scoped__link " href="#void" role="tab" tabindex="0" aria-selected="true" aria-controls="')+ImpactedComponents[c]+encodeHTML('" id="')+ImpactedComponents[c]+encodeHTML('__item">')+ImpactedComponents[c]);
+                            $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('</a>'));
+                            $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('</li>')); 
+                        }
+                        /* else{
+                             width =width +16;
+                            if(c==ImpactedComponents.length-1){  
+                                console.log('2.dynamically creating table'+ImpactedComponents[c]);                                          
+                                $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('<li class="slds-tabs--scoped__item slds-text-heading--label " title="Item One" role="presentation"><a class="slds-tabs--scoped__link" href="#void" role="tab" tabindex="0" aria-selected="true" aria-controls="')+ImpactedComponents[c]+encodeHTML('" id="')+ImpactedComponents[c]+encodeHTML('__item">')+ImpactedComponents[c]);
+                                $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('testing123</a>'));
+                                $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('</li>'));     
+                            }else{
+                                console.log('3.here !!');                                          
+                                $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('<li class="slds-tabs--scoped__item slds-text-heading--label" title="Item One" role="presentation"><a class="slds-tabs--scoped__link" href="#void" role="tab" tabindex="0" aria-selected="true" aria-controls="')+ImpactedComponents[c]+encodeHTML('" id="')+ImpactedComponents[c]+encodeHTML('__item">')+ImpactedComponents[c]);
+                                $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('</a>'));
+                                $(encodeHTML('[id$=ResultTab]')).append(encodeHTML('</li>'));  
+                            }   
+                        } */
+                    }
+                 
+                    $('[id$=resultdivision]').css("width",width+'%'  );
+                    console.log('objectname###'+'{!Layoutobjectid }');
+                    var ORGURL = $('[id$=OrgURL]').val();
+                    
+                    //function is invoked for active tab                                      
+                /* $('.slds-tabs--scoped__link').each(function(){
+                                      
+                        if($(this).parent().hasClass('slds-active')){
+                             
+                        
+                            var apexcomponent=$(this).attr("aria-controls"); 
+                            
+                                GoandFetch(apexcomponent);
+                                
+                                        
+                                $('.slds-tabs--scoped__content').remove();
+                                $('.Resultsec').append('<div style="margin-left:5%;margin-right:5%;" id="'+apexcomponent+'"class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="'+apexcomponent+'__item">');
+                                $('.Resultsec').append('</div>');
+               
+                                var html = '<div class="slds-scrollable--x"><table class="slds-table slds-table--bordered">';   
+                        
+                                html += '<thead><tr><th scope="col">Component Type</th>';
+                                
+                                html += '<th scope="col">Component</th></tr></thead><tbody>'; 
+                                console.log('Entityarray'+Entityarray);                      
+                                
+                                for(var c=0;c<Entityarray.length;c++ ){
+                                    html += '<tr><td>'+apexcomponent+'</td>'; 
+                                    
+                                    var n=NameArray[c]; 
+                                    
+                                    if(apexcomponent == 'Flows & Processes'){                         
+                                        html += '<td><a href="#" onclick=window.open("'+ORGURL+'/designer/designer.apexp#Id='+IDArray[c]+'") >'+NameArray[c]+'</a></td><td>'+Entityarray[c].substring(0,Entityarray[c].indexOf('@'))+'</td></tr>';
+                                    }else                                 
+                                    if(apexcomponent == 'Page Layout')
+                                        html += '<td><a href="#" onclick=window.open("'+ORGURL+'/layouteditor/layoutEditor.apexp?type='+layobj+'&lid='+IDArray[c]+'") >'+NameArray[c]+'</a></td><td>'+Entityarray[c].substring(0,Entityarray[c].indexOf('@'))+'</td></tr>';
+                                    else 
+                                    if(apexcomponent=='Apex Class'  || apexcomponent=='Apex Trigger'  ) {                                                              
+                                          
+                                        html += '<td><a href="#" onclick=window.open("'+ORGURL+'/'+IDArray[c]+'") >'+NameArray[c]+'</a></td>'+'</tr>';                                      
+                                        
+                                    }else
+                                        html += '<td><a href="#" onclick=window.open("'+ORGURL+'/'+IDArray[c]+'") >'+NameArray[c]+'</a></td>'+'</tr>';                    
+                                }
+                                        
+                                html = html + '</tbody></table></div>';                                             
+                                $('.slds-tabs--scoped__content').append(html);
+                          
+                        }
+                            
+                        $(this).click(function(){
+                    
+                            $(this).parent().addClass('slds-active');
+                            $(this).parent().siblings().removeClass('slds-active');
+                            var apexcomponent=$(this).attr("aria-controls");
+                       
+                            GoandFetch(apexcomponent);
+                        
+                            $('.slds-tabs--scoped__content').remove();
+                            $('.Resultsec').append('<div style="margin-left:5%;margin-right:5%;" id="'+apexcomponent+'"class="slds-tabs--scoped__content slds-show" role="tabpanel" aria-labelledby="'+apexcomponent+'__item">');
+                            $('.Resultsec').append('</div>');
+                    
+                            var html = '<div class="slds-scrollable--x"><table class="slds-table slds-table--bordered">';   
+                            
+                            html += '<thead><tr><th scope="col">Component Type</th>';
+                            
+                            html += '<th scope="col">Component</th></tr></thead><tbody>';
+                            
+                            for(var c=0;c<Entityarray.length;c++ ){
+                                html += '<tr><td>'+apexcomponent+'</td>';                                                      
+                                var n=NameArray[c];
+                                if(apexcomponent == 'Flows & Processes'){                         
+                                    html += '<td><a href="#" onclick=window.open("'+ORGURL+'/designer/designer.apexp#Id='+IDArray[c]+'") >'+NameArray[c]+'</a></td><td>'+Entityarray[c].substring(0,Entityarray[c].indexOf('@'))+'</td></tr>';
+                                }else                           
+                                if(apexcomponent == 'Page Layout'){                         
+                                    html += '<td><a href="#" onclick=window.open("'+ORGURL+'/layouteditor/layoutEditor.apexp?type='+layobj+'&lid='+IDArray[c]+'") >'+NameArray[c]+'</a></td><td>'+Entityarray[c].substring(0,Entityarray[c].indexOf('@'))+'</td></tr>';
+                                }
+                                else 
+                                if(apexcomponent=='Apex Class' ||  apexcomponent=='Apex Trigger'  ) {
+                                    console.log('Entityarray[c]!!!'+Entityarray[c]);                                   
+                                    html += '<td><a href="#" onclick=window.open("'+ORGURL+'/'+IDArray[c]+'") >'+NameArray[c]+'</a></td>'+'</tr>';                                      
+                                   
+                                }
+                                else
+                                    html += '<td><a href="#" onclick=window.open("'+ORGURL+'/'+IDArray[c]+'") >'+NameArray[c]+'</a></td>'+'</tr>';                        
+                            }
+                                    
+                            html = html + '</tbody></table></div>';
+                            $('.slds-tabs--scoped__content').append(html);                                    
+                        });
+                               
+                    }); */
+                      
+                      return false; 
+                }
+            }
+           
+            function GoandFetch(component){
+               
+                    IDArray=[];
+                    NameArray=[];
+                    Entityarray = [];                                
+                    for(var i=0;i<obj.length;i++){ 
+                                 
+                        if(obj[i].type==component){ 
+                                                 
+                            IDArray.push(obj[i].Id);
+                            NameArray.push(obj[i].Name);                        
+                            Entityarray.push(obj[i].type);   
+                            
+                        }        
+                    }                
+            }
+            function resetflags(){                
+                var arr=$('.checkComp');                
+                for (i = 0; i < arr.length; i++) 
+                    arr[i].checked  = false;            
+            }
+            function shownhide(comp){
+                var id = $(comp).attr("aria-controls");
+                var arr = $('.slds-show');
+                console.log('id!!!!'+arr);
+                 $('#'+id).siblings('div').removeClass('slds-show').addClass("slds-hide");;
+                
+                $('#'+id).removeClass("slds-hide").addClass("slds-show");
+                
+            }
+            var count =0;
+            function countcomp(comps){
+                    flags = true;
+                    var vv= $(comps).prop('checked');
+                    var arr=$('.checkComp');
+                    count =0;
+                    for (i = 0; i < arr.length; i++) {
+                        if (arr[i].checked) {
+                            count=count+1;
+                        }
+                    }
+                    $(comps).val(vv);
+                    if(count>4){
+                        alert('You can only select 4 components at a time!!!');
+                        $(comps).prop('checked', false);
+                        $(comps).val(vv);
+                    }
+                    
+                    console.log('vv:'+$(comps).val());
+                    if(count!=0 && count<=4){
+                        //alert('start');
+                        //callResetFlags();
+                        
+                    }//else if(count == 0)
+                        //alert('Please select any one component!!!');
+                    
+                }
+
+            
+        </script>
+
+        <html xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"> 
+        <div class="slds">
+            <apex:outputpanel >                  
+                <apex:actionstatus id="status">
+                    <apex:facet name="start">
+                        <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                        height: 100%;opacity:0.65;width:100%;z-index:11111;"> 
+                            <div class="" style="width: :100%;">
+                                <img src="https://www.lightningdesignsystem.com/assets/images/spinners/slds_spinner_brand.gif" alt="Loading..." />                    
+                            </div>
+                        </div>
+                    </apex:facet>
+                </apex:actionstatus>
+            </apex:outputpanel>
+               
+             
+            <apex:form ><br/><br/>
+             <div id ="info" style="display:none;">
+            <div role="dialog" tabindex="-1" aria-labelledby="header43" class="slds-modal slds-fade-in-open">
+                <div class="slds-modal__container">
+                    
+                    <div class="slds-modal__content slds-p-around--medium">
+                      <div>
+                        <p>
+                            This page is sample representation of the actual data
+                            To view the detailed analysis of the fields referenced in the components of this org and to export the analysis, please install it in production.
+                        </p>
+                      </div><br/>
+                      <!--<input type="button"  value="Upgrade" style="margin-left:30%;" class="slds-button slds-button--neutral btnnavv" onclick="$('#varifysettingPopup').show();showVarifySettingPopop();$('#info').hide();return false;"/>-->
+                      <center><input type="button" value=" OK "   class="slds-button slds-button--neutral btnnavv" style="text-decoration:none;" onclick="$('#info').hide();" />  </center>
+                 
+                    </div>
+                    
+                    
+                </div>
+            </div>
+            <div class="slds-backdrop slds-backdrop--open"></div>
+            </div>
+    
+           
+            <apex:actionFunction action="{!createLicenseRecord}" ReRender="nextValue" status="status" name="createLicenseRecord"/>
+            <apex:actionFunction action="{!validateLicenseKey}" name="validateLicense" status="status" reRender="popupkeymgs, errorMessage,Analysis" oncomplete="if('{!pagemessage}' == ''){$('#varifysettingPopup').hide();$('[id$=Dummy]').hide();$('[id$=Analysis]').show();/*$('#resultdivision').show();$('#btnSave').show();*/hideVarifySettingPopop(); return false;}"/>
+             <apex:actionFunction action="{!Returnpage}" name="showobjectList" oncomplete="$('[id$=fieldsec]').hide();$('[id$=Objsec]').show();resetflags();$('[id$=impactanalyse]').hide();$('[id$=mainheader]').show();onrerrender({!jsonObjects });" rerender="main,Objsec" status="status"  />    
+                <apex:outputpanel id="op"/>
+                
+                    <!----First Screen to be displayed--->
+                    <apex:outputPanel style="display:{!IF(mainscreen,'','none')};" id="main">
+
+                        <div class = "css3gradient" style = "width: 961px;height:450px;margin-left:190px; border-radius: 25px;
+                        border: 4px solid #008080;"> <br/>
+            
+                            <b><center><font size="7" color="#000099" style="font-family: Georgia;font-size: 48px;font-style: italic;">Amanda</font></center></b><br/>
+                            <h4 style="margin-left: 314px;font-size: 17px;margin-top: -29px;font-style: italic;"> <b> Tracking fields in your Salesforce Instance</b> </h4>
+                    
+                            <br/><br/>
+                            
+                            
+                            <h3><b style="margin-left: 264px;font-size: 18px;">Click on the button to begin your field analysis</b></h3>
+
+                            <br/>
+                            <table  style = "margin-top: -7px;margin-left: -156px;" >
+                                <tr>
+                                    <td>
+                                        <apex:commandLink value="Fields Impact Analysis"   styleClass="myButton" style="text-decoration:none;margin-left: 514px;font-size:17px;color:white;margin-top: 25px;" action="{!Returnpage}" oncomplete="if('{!JSENCODE(alertmsg)}' != ''){alert('{!JSENCODE(alertmsg)}'); return false;}else{resetflags();onrerrender({!jsonObjects }); $('[id$=mainheader]').show();}" rerender="main,Objsec" status="status"  >                        
+                                            <apex:param assignTo="{!choices}" id="xx" name="lindex" value="FieldsValues"/>
+                                        </apex:commandLink><br/><br/>               
+                                    </td>
+                                </tr>                                     
+                            </table> <br/><br/>
+                     
+                      
+                            <p style="padding-left:25px; padding-right: 25px; text-align:center;color:white">
+                                 Please ensure that your salesforce instance URL has been added in the remote site settings. <br/>(Go to Setup> in Administer> Security Controls> Remote Site Settings)<br/>
+                                For example, if your Salesforce instance is na12.salesforce.com remote site setting would be https://na12.salesforce.com .Incase you have custom domain enabled in your Instance, please set the basic salesforce instance URL.
+                            </p>         
+                        </div>
+                    </apex:outputpanel>
+                    <!---screen close--->
+            
+                    <!---Header of Object Section --->
+                    
+                    <div class="slds-tabs--path" role="application tablist" style="width:37%;display:{!IF(header,'','none')};" id="mainheader">
+                        
+                        <ul class="slds-tabs--path__nav" role="presentation" style="margin-left:5%;" >
+                            <li class="slds-tabs--path__item slds-is-complete " role="presentation" style="width:35px;">
+                                <a  class="slds-tabs--path__link Main" aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive" onclick="$('[id$=main]').show();$('[id$=mainheader]').hide();$('[id$=Objsec]').hide();return false;">
+                                    <span class="slds-tabs--path__stage">
+                                        <svg aria-hidden="true" class="slds-icon slds-icon-text-default">
+                                            <use xlink:href="{!URLFOR($Resource.SLDS090, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                        </svg>                               
+                                    </span>
+                                    <span class="slds-tabs--path__title"> Main</span>
+                                </a>
+                            </li>
+                            <li class="slds-tabs--path__item slds-is-current " role="presentation" style="width:35px;">
+                                <a  class="slds-tabs--path__link Contact" aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive">                    
+                                    <span class="slds-tabs--path__title"> Fields &amp; Values Impact Analysis</span>
+                                </a>
+                            </li>
+                        </ul>
+                        
+                    </div><br/><br/>
+                    <!---Header of Object Section --->
+                    
+            <apex:outputpanel id="Objsec" style="display:{!IF(showobjsection,'','none')};">
+
+                <apex:actionfunction name="objselecteds" action="{!rerenderpage}"   >
+                <apex:actionfunction name="apexcall" action="{!callApexcomponents}" rerender="opanels,loadid,fieldsec,pol,message,fieldListid"   />
+                <apex:actionregion > <apex:actionfunction name="tempmethod" action="{!tempmethod }"/> </apex:actionregion>    
+                </apex:actionfunction>
+                <apex:inputHidden value="{!SelectedObject}" id="SelectedObj"/>
+                <apex:inputHidden value="{!FieldLabel}" id="label"/>
+                
+                <apex:inputHidden value="{!baseurl}" id="OrgURL"/> 
+              
+                <apex:inputhidden value="{!Jsoncontent}" id="Jsonid"/>  
+                <apex:inputHidden value="{!SelectedField}" id="fieldname"/>
+                <apex:actionPoller action="{!displaychart}" id="pol" reRender="opanels,loadid,fieldsec" interval="15" oncomplete="showjson('{!Jsonbody }','{!Layoutobjectid}','{!loader}');"
+                    enabled="{!loader}" />
+                    
+                <!--Component select Section start--->       
+                    <apex:inputhidden value="{!classtrigger}" id="classtriggerId" />
+                    <apex:inputhidden value="{!workflow}" id="workflowId" />
+                    <apex:inputhidden value="{!fieldupdate}" id="fieldupdateId" />
+                    <apex:inputhidden value="{!validation}" id="validationId" />
+                    <apex:inputhidden value="{!form}" id="formId" />
+                    <apex:inputhidden value="{!playout}" id="playoutId" />
+                    <apex:inputhidden value="{!email}" id="emailId" />
+                    <apex:inputhidden value="{!approv}" id="approvId" />
+                    <apex:inputhidden value="{!pages}" id="vfpagesId" />
+                    <apex:inputhidden value="{!flowsAndProcess}" id="flowsAndProcessId" />
+                    <div style="margin-left:30px;border:1px solid grey;border-radius: 10px;background-color:#4bca81;"><br/>
+                        <label style="margin-left:30px;top:5px;font-weight:bold;">Select Components</label><br/>
+                            <div class="slds-form-element__row">
+                                <div class="slds-form-element" style="margin-left:30px;">
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp"  value="{!classtrigger}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Apex Class &amp; Triggers</span>
+                                    </label>
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!workflow}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Workflow Rules</span>
+                                    </label>
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!fieldupdate}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Workflow Field Updates</span>
+                                    </label>
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp"  value="{!validation}" onclick="countcomp(this);"/>
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Validation Rules</span>
+                                    </label>                                    
+                                </div>
+                                <div class="slds-form-element" style="margin-left:30px;">
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!form}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Formula Fields</span>
+                                    </label>
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!playout}" onclick="countcomp(this);"/>
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Page Layouts</span>
+                                    </label>                                
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!email}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Email Templates</span>
+                                    </label>
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!approv}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Approval Process</span>
+                                    </label>
+                                    
+                                </div>
+                                <div class="slds-form-element" style="margin-left:30px;">
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!pages}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Visualforce Pages</span>
+                                    </label>
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!flowsAndProcess}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Flows and Processes</span>
+                                    </label>
+                                    <label class="slds-checkbox" style="width:24%;">
+                                        <apex:inputcheckbox styleclass="slds-input checkComp" value="{!reports}" onclick="countcomp(this);" />
+                                           <span class="slds-checkbox--faux"></span>
+                                           <span class="slds-form-element__label">Reports (Under Maintenance)</span>
+                                    </label>
+                                </div>
+                               
+                            </div>
+
+                        </div>
+                    <br/>
+                <!--Component select Section close---> 
+                    
+                
+                
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="name" style="font-size:21px;margin-left:2%;">Select an object to analyze</label>
+                    <input class="slds-input objinput" style="width:275px;" id="selectobject"  type="text"/>
+                    <script>                                
+                        var AllObjects = {!jsonObjects};
+                        $( "#selectobject" ).autocomplete({
+                           source: AllObjects
+                        });                
+                    </script>
+                </div>
+                        
+              
+                <table class="slds-table slds-table--bordered" id="tbl1" style="margin-top:46px;margin-left:2%;" >
+                        <thead>
+                            <tr class="slds-text-heading--label">
+                                <th scope="col">
+                                    <span class="slds-truncate">Object name</span>                                    
+                                </th>
+                                <th scope="col">
+                                    <span class="slds-truncate">API name</span>                                    
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <apex:repeat value="{!sobjectWrapperList}" var="wrap">
+                                <apex:repeat value="{!wrap}" var="sobj">
+                                     <tr>
+                                         <td>                                     
+                                             <apex:commandLink value="{!sobj.label}"  onclick="selectedobject('{!sobj.label}','{!sobj.APIname}');return false;" />                                                                            
+                                         </td>
+                                         <td>{!sobj.APIname}</td>
+                                     </tr>
+                                </apeX:repeat>
+                            </apex:repeat>
+                        </tbody>
+                </table>
+            </apex:outputpanel> 
+            <!--Object Section close--->
+                        
+                    
+            <apex:outputpanel >
+                <div id="chart_divs" style="width: 900px; height: 500px;display:none;" ></div>
+            </apex:outputpanel>
+                    
+            <!---Fiesld Section start ---->       
+            <apex:outputPanel id="fieldsec" style="display:{!IF(showfieldsection,'','none')};" > 
+             
+                <apex:outputPanel id="loadid">
+                    <div  id="el_loading" class="waitingDiv" style="display:{!IF(loader,'','none')};background-color: #fbfbfb;position:absolute;top:2%;
+                    height: 100%;opacity:0.65;width:100%;z-index:11111;"> 
+                        <div class="" style="width: :100%;background-color: #fbfbfb;">
+                            <img style="position:absolute;left:40%;" src="https://www.lightningdesignsystem.com/assets/images/spinners/slds_spinner_brand.gif" alt="Loading..." />                    
+                        </div>
+                    </div >
+                </apex:outputPanel>
+                
+                <apex:outputpanel id="message" style="display:{!IF(AND(loader,showfieldsection),'','none')};color:#0070d2;">
+                    <div style="margin-left:5%;z-index:11111;opacity:0.65;position:relative;top:1%;font-size:20px;">
+                    Amanda may take a few minutes to display the results. Thank you for your patience.
+                    </div>
+                </apex:outputpanel>  
+                
+                <div class="slds-tabs--path" role="application tablist" style="width:64%;">
+                    <ul class="slds-tabs--path__nav" role="presentation" style="margin-left:5%;" >
+                        <li class="slds-tabs--path__item slds-is-complete " role="presentation" style="width:174px;">
+                            <a  class="slds-tabs--path__link Main" aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive" onclick="$('[id$=main]').show();$('[id$=fieldsec]').hide();resetflags();return false;">
+                                <span class="slds-tabs--path__stage">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-text-default">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS090, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                    </svg>                               
+                                </span>
+                                <span class="slds-tabs--path__title"> Main</span>
+                            </a>
+                        </li>
+                        <li class="slds-tabs--path__item slds-is-complete " role="presentation"  style="width:174px;">
+                            <a  class="slds-tabs--path__link Contact" aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive" onclick="showobjectList();" >                    
+                                <span class="slds-tabs--path__stage">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-text-default">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS090, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                    </svg>                               
+                                </span>
+                                <span class="slds-tabs--path__title"> Fields &amp; Values Impact Analysis</span>
+                            </a>
+                        </li>
+                        <li class="slds-tabs--path__item slds-is-current " role="presentation"  style="width:174px;">
+                            <a  class="slds-tabs--path__link Contact" aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive" >                    
+                                <span class="slds-tabs--path__title">{!SelectedObject}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div><br/><br/>
+                
+                <div class="slds-form-element">
+                    <label class="slds-form-element__label" for="name" style="font-size:21px;margin-left:3%;">Select a field to analyze</label>
+                    <input class="slds-input fieldinp " style="width:275px;" id="selectField"  type="text"/>
+                    <script>                                
+                        var AllFields = {!JSONField};                   
+                        $('[id$=selectField]').autocomplete({
+                            source: AllFields
+                        });                
+                    </script>
+                </div>
+                <apex:outputpanel id="fieldListid" >
+                <table class="slds-table slds-table--bordered" id="tbl2" style="margin-top:46px;margin-left:2%;" >
+                    <thead>
+                        <tr class="slds-text-heading--label">
+                            
+                            <th scope="col">
+                                <span class="slds-truncate">field name</span>                                    
+                            </th>
+                            <th scope="col">
+                                <span class="slds-truncate">field API name</span>                                    
+                            </th>
+                            <th scope="col">
+                                <span class="slds-truncate">field Type</span>                                    
+                            </th>
+                        </tr>
+                    </thead>
+                    
+                    <tbody>
+                        <apex:repeat value="{!FieldWrapperList}" var="wraps">
+                            <apex:repeat value="{!wraps}" var="sfield">
+                           
+                                <tr>                                    
+                                    <td><apex:commandbutton id="field_info" styleclass="convertbtn" value="{!sfield.label}" onclick=" $('.waitingDiv').show();$('[id$=label]').val($(this).parent().children().eq(0).val());$('[id$=fieldname]').val($(this).parent().next().text());apexcall(); return false;"  /></td>                                     
+                                    <td class="apiname">{!sfield.APIname}</td>
+                                    <td class="type">{!sfield.type}</td>
+                                </tr>
+                         </apeX:repeat>    
+                        </apeX:repeat>
+                    </tbody>
+                </table> 
+                        </apex:outputPanel>
+                <apex:outputPanel id="opanels"  />  
+                             
+            </apex:outputPanel>
+            
+            <!--Field Section Close --->
+            <apex:outputPanel id="selectComp" style="display:{!IF(showfieldsection,'','none')};" >             
+            </apex:outputPanel>
+            <!---SELECT COMPONENT SECTION STOP---> 
+                    
+                      
+            <!---chart Section starts ---->        
+            <apex:outputPanel style="display:none;" id="impactanalyse">
+                <div class="slds-tabs--path" role="application tablist" style="width:69%;">
+               
+                    <ul class="slds-tabs--path__nav" role="presentation" id="fieldlis" style="margin-left:5%;">
+                        <li class="slds-tabs--path__item slds-is-complete " role="presentation" style="width:145px;">
+                            <a  class="slds-tabs--path__link Main" aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive" onclick="$('[id$=main]').show();$('[id$=impactanalyse]').hide();resetflags();return false;" >
+                                <span class="slds-tabs--path__stage">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-text-default">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS090, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                    </svg>                               
+                                </span>
+                                <span class="slds-tabs--path__title"> Main</span>
+                            </a>
+                        </li>
+                        <li class="slds-tabs--path__item slds-is-complete " role="presentation" style="width:145px;">
+                            <a  class="slds-tabs--path__link " aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive" onclick="showobjectList();">                    
+                                <span class="slds-tabs--path__stage">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-text-default">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS090, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                    </svg>
+                                 </span>
+                                 <span class="slds-tabs--path__title"> Fields &amp; Values Impact Analysis</span>
+                            </a>
+                        </li>
+                        <li class="slds-tabs--path__item slds-is-complete " role="presentation" style="width:145px;">
+                            <a  class="slds-tabs--path__link Contact" aria-selected="true" tabindex="0" role="tab" href="#void" aria-live="assertive"  onclick="calltempmethod();$('[id$=fieldsec]').show();$('[id$=impactanalyse]').hide();return false;" >           
+                                <span class="slds-tabs--path__stage">
+                                    <svg aria-hidden="true" class="slds-icon slds-icon-text-default">
+                                        <use xlink:href="{!URLFOR($Resource.SLDS090, 'assets/icons/utility-sprite/svg/symbols.svg#check')}"></use>
+                                    </svg>
+                                 </span>
+                                <span class="slds-tabs--path__title">{!SelectedObject}</span>
+                            </a>
+                        </li>                                                      
+                    </ul>
+                </div>
+                
+                <!---here chart is displayed-->
+                <div id="field_chart"   style="width: 900px; height: 500px;"></div>
+                
+                <apex:inputHidden value="{!ImpactedComponents}" id="impacted" />  <br/>
+              <!-- <apex:outputPanel id="Analysis">        
+               <apex:outputPanel rendered="{!!isTrial}">  -->  
+               <div id="Analysis" style="display:{!IF(isTrial == false, '', 'none')}"> 
+                    <div>
+                      <ul>
+                            <li style="float:left;margin-left:20%;margin-right:5%;margin-bottom:3%;">
+                                <apex:commandlink value="View Analysis" styleClass="buttonclass"  style="text-decoration:none;display:none;color:white" action="{!callpageredirect}"  target="_blank" >
+                                     <apex:param assignTo="{!buttonname}" name="lindex" value="open analysis"   />
+                                 </apex:commandlink>
+                             </li>
+                         
+                             <li style="float:left;margin-right:6%;margin-bottom:3%;">
+                         
+                            <apex:commandlink value="Save Analysis" styleClass="buttonclass"  style="text-decoration:none;display:none;color:white" action="{!callpageredirect}"  >
+                                 <apex:param assignTo="{!buttonname}" name="lindex" value="save analysis"   />
+                             </apex:commandlink>
+                         </li>
+                     </ul>
+                 </div> <br/><br/><br/><br/>
+                    
+                    <!--Table section --->      
+                    <apex:outputPanel styleclass="Resultsec"  >                    
+                        <div class="slds-tabs--scoped" id="resultdivision" style="margin-left:5%;" >
+                            <!--<ul class="slds-tabs--scoped__nav" role="tablist" id="ResultTab">
+                            
+                            </ul>-->
+                        </div>                        
+                    </apex:outputPanel>
+                </div>
+              <!-- </apex:outputPanel>
+              <li class="slds-tabs--scoped__item slds-text-heading--label slds-active
+               </apex:outputpanel>-->
+               <apex:outputPanel rendered="{!isTrial}" id="Dummy">
+                    
+                    <h3><span style="margin-left: 5%;font-size: 18px;">Data shown below is not real. Real data is shown once you have installed it in production instance.</span></h3>
+                    <div class="slds-tabs--scoped" style="margin-left:5%;width:80%;">
+                        <ul class="slds-tabs--scoped__nav" role="tablist">
+                            <li class="slds-tabs--scoped__item slds-text-heading--label " id = "cls" title="Item One" role="presentation" style="display:{!IF(classtrigger,'','none')};">
+                               <a class="heads" href="javascript:void(0);"  role="tab" tabindex="0" aria-selected="true" aria-controls="tab-default-1" id="tab-default-1__item" onclick="shownhide(this);">Apex Class</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="trg" title="Item Two" role="presentation" style="display:{!IF(classtrigger,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-2" id="tab-default-2__item" onclick="shownhide(this);">Apex Trigger</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id ="work" title="Item Three" role="presentation" style="display:{!IF(workflow,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-3" id="tab-default-3__item" onclick="shownhide(this);">Workflow</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="lay" title="Item Three" role="presentation" style="display:{!IF(playout,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-4" id="tab-default-4__item" onclick="shownhide(this);">Page Layout</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="fupdate" title="Item Three" role="presentation" style="display:{!IF(fieldupdate,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-5" id="tab-default-5__item" onclick="shownhide(this);">Workflow Field Update</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="valid" title="Validation Rule" role="presentation" style="display:{!IF(validation,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-6" id="tab-default-6__item" onclick="shownhide(this);">Validation Rule</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="form" title="Formula field" role="presentation" style="display:{!IF(form,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-7" id="tab-default-7__item" onclick="shownhide(this);">Formula field</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="email" title="Email Templates" role="presentation" style="display:{!IF(email,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-8" id="tab-default-8__item" onclick="shownhide(this);">Email Templates</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="page" title="Visualforce Pages" role="presentation" style="display:{!IF(pages,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-9" id="tab-default-9__item" onclick="shownhide(this);">Visualforce Pages</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="flow" title="Flow and Process" role="presentation" style="display:{!IF(flowsAndProcess,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-10" id="tab-default-10__item" onclick="shownhide(this);">Flow and Process</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="approv" title="Approval Process" role="presentation" style="display:{!IF(approv,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-11" id="tab-default-11__item" onclick="shownhide(this);">Approval Process</a></li>
+                            <li class="slds-tabs--scoped__item slds-text-heading--label" id="reports" title="Reports" role="presentation" style="display:{!IF(reports,'','none')};">
+                               <a class="heads" href="javascript:void(0);" role="tab" tabindex="-1" aria-selected="false" aria-controls="tab-default-12" id="tab-default-12__item" onclick="shownhide(this);">Reports</a></li>
+                        </ul>
+                        
+                    <div id="tab-default-1" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-1__item">
+                    
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Apex Class</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Class1</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div id="tab-default-2" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-2__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Apex Trigger</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Trigger1</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div id="tab-default-3" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-3__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>Workflow rules</td>
+                                    <td>
+                                        <a href="#"  onclick = "$('#info').show();">WF Rule1</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                     <div id="tab-default-4" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-4__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Page Layout</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Page Layout</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div id="tab-default-5" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-5__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Workflow Field Update</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Field Update</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>                        
+                    </div>
+                    <div id="tab-default-6" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-6__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Validation Rule</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Validation Rule</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div id="tab-default-7" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-7__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Formula Field</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Formula</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div id="tab-default-8" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-8__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Email Template</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Email Template</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div id="tab-default-9" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-9__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Apex Page</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Page</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div id="tab-default-10" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-10__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Flow and Process</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Process</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    <div id="tab-default-11" class="slds-tabs--default__content slds-hide" role="tabpanel" aria-labelledby="tab-default-11__item">
+                        <table class="slds-table slds-table--bordered qwerty" >
+                            <thead>
+                                <tr>
+                                    <th scope="col">Component Type</th>
+                                    <th scope="col">Component</th>
+                                </tr>
+                            </thead>
+                            <tbody>   
+                                <tr>
+                                    <td>Approval Process</td>
+                                    <td>
+                                         <a href="#" onclick = "$('#info').show();" >Approval</a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        
+                    </div>
+                    
+                </div>
+                    <!-- </div>-->
+                  <!-- </apex:outputPanel>-->
+                   <br/>
+                  <center> <apex:commandButton value="Upgrade" styleclass="slds-button slds-button--neutral btnnavv" onclick="$('#varifysettingPopup').show();showVarifySettingPopop();return false;"/></center>
+               </apex:outputPanel> 
+             <div id="varifysettingPopupback" class="slds-modal-backdrop"></div>       
+            </apex:outputPanel>
+            <!---chart Section ends here---->
+            <div style="display:none;height:30px; width:70%;margin-top:4%;margin-left:16%;" id="varifysettingPopup" aria-hidden="false" role="dialog" class="slds-modal keyPopup">
+                <div>
+                    <apex:outputPanel id="popup3">
+                        <apex:pageblock mode="edit" >
+                            <div class="slds-notify slds-notify--alert slds-theme--alert-texture" role="alert">
+                                <span class="slds-assistive-text">Info</span>
+                                  <!--button class="slds-button close slds-icon--small">
+                                    <svg aria-hidden="true" class="slds-button__icon slds-button__icon--inverse">
+                                      <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#close"></use>
+                                    </svg>
+                                    <span class="slds-assistive-text">Close</span>
+                                  </button-->
+                                 
+                                    <!--svg aria-hidden="true" class="slds-icon icon-text-email slds-icon--small slds-m-right--x-small">
+                                      <use xlink:href="/assets/icons/action-sprite/svg/symbols.svg#email"></use>
+                                    </svg-->
+                                   <h2>
+                                       <apex:outputPanel id="popupkeymgs"><apex:outputText value="Upgrade Amanda"/></apex:outputPanel>
+                                       <!--<apex:outputPanel id="errorMessage"><apex:outputText value="{!JSENCODE(pagemessage)}" rendered="{!pagemessage != ''}"/></apex:outputPanel>-->
+                                   </h2> 
+                                    
+                            </div><br/>
+                            <Apex:pageBlockSection columns="1" id="licKey">
+                                <apex:pageblocksectionItem rendered="true">
+                                   <!-- <apex:outputLabel >Key</apex:outputLabel>
+                                    <apex:inputText value="{!LicenseKey}" html-placeholder="Enter License Key" styleClass="slds-input"/>-->
+                                    This is the limited version of Amanda. To leverage the complete features, please install it in production instance.
+                                </apex:pageblocksectionItem>
+                            </Apex:pageBlockSection>
+                            <center><br/>
+                                <apex:outputPanel id="popupbtn">
+                                   <!-- <input type="button" value=" OK " class="slds-button slds-button--neutral" onclick="hideVarifySettingPopop();" />-->
+                                   <!-- <input type="button" value=" OK " class="slds-button slds-button--neutral" onclick="validateLicense();return false;" />
+                                    &nbsp;&nbsp;-->
+                                    <input type="button" value=" OK " class="slds-button slds-button--neutral" onclick="hideVarifySettingPopop();return false;" />
+                                    <br/>
+                                </apex:outputPanel>
+                            </center>            
+                        </apex:pageblock>
+                    </apex:outputPanel>
+                                   
+                    <!-- added status when any action performed -->
+                    <apex:outputpanel >
+                        <apex:actionstatus id="Status1">
+                            <apex:facet name="start">
+                                <div class="waitingSearchDiv" id="el_loading" style="background-color: #fbfbfb;
+                                       height: 100%;opacity:0.65;width:100%;"> 
+                                    <div class="waitingHolder" style="top: 40%; width: 500px;left:30%;position:fixed;height: 500px;">
+                                        <img class="waitingImage" src="{!URLFOR($resource.SLDS090,'/assets/images/spinners/slds_spinner_brand.gif')}" title="Please Wait..." />
+                                        <span class="waitingDescription">Please Wait...</span>
+                                    </div>
+                                </div>
+                            </apex:facet>
+                        </apex:actionstatus>
+                    </apex:outputpanel>
+                </div>
+                
+            </div>
+                   
+            </apex:form>    
+        </div> 
+        <script>
+            function hidechildren(){
+                $('#dummyClass').hide();
+                $('#dummyTrigger').hide();
+                $('#dummyLayout').hide();
+                $('#dummyValidation').hide();
+                $('#dummyWorkflow').hide();
+            }
+        </script>       
+    </html>       
+</apex:page>

@@ -1,0 +1,146 @@
+<apex:page sidebar="false" controller="ImpactAnalysis_Controller"   showHeader="false" applyHtmlTag="false" renderAs="pdf" >
+
+    <head>
+  
+        <style type="text/css"  media="print">
+
+            @page {
+             
+            margin-top:7%;
+
+
+            @top-center {
+            //content: "COMPONENT REFERENCE";
+            }
+            @bottom-center {
+            content: counter(page);
+            }
+            }
+
+
+            body{
+            font-size : 14px;
+            }
+            table,th,td {
+           
+            //border-color: #000000;
+           
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid black;
+
+
+            }
+
+            th, td {
+            text-align: left;
+            padding: 8px;
+            }
+
+            
+            th {
+           
+            background-color:#00ccff;
+            color:white;
+
+            }
+            h2{
+            color:#006680;
+
+            }
+        </style>
+    </head>
+    <body>
+        <apex:form >
+
+
+        <br/>
+       
+            <div width = "100%">
+                <center><h2>COMPONENT REFERENCE</h2></center>
+                <div style = "border-radius: 18pt; /* radius of rounded corner*/
+                    border: solid green;
+                        padding: 6pt;">
+                     
+                    <apex:outputpanel id="field" >
+                    Object Name : {!SelectedObject}
+                    <br/>
+                    <br/>
+                    Field Name : {!SelectedField}
+                    <br/>
+                    <br/>
+                    </apex:outputpanel>
+                </div>
+            <br/>
+            <br/>
+            <div>
+     
+            
+       
+
+           
+
+                
+                <apex:repeat value="{!typeset}" var="fy">
+                <div style = "page-break-inside:avoid;
+            page-break-after:auto;">
+            <table>
+               <tr style = "page-break-inside:avoid;
+            page-break-after:auto;">
+                    <td style="background-color:#00a3cc;color:white;font-size:15px;border:1px black solid;padding-left:6%; width:700px; height:30px"><b><center>{!fy}</center></b>
+                    </td>
+<!--<td style="height:30px"><div style="font-size:20px; color:white">
+<apex:outputText value="{!orderdate}"/></div>
+</td>-->
+                </tr>
+                </table>
+                <br/>
+                <br/>
+                <table style = "page-break-inside:avoid;
+            page-break-after:auto;">
+                <tr>
+                    <th width ="25%">Name</th>
+                    <th width ="25%">Created By</th>
+                    <th width ="25%">Last Modified By</th>
+                    <th width ="25%"> Last Modified Date</th>
+                </tr>
+               
+                   <apex:repeat value="{!componentsmap[fy]}" var="obj">
+                        <tr>
+                            <!--<td><apex:outputlink value="{!ORGURL}/{!obj.Id2}" target="_blank">{!obj.names}</apex:outputlink></td>-->
+                            <td><apex:commandlink value="{!obj.names}"   onclick="window.open('https://support.wwf.org.uk/earth_hour/index.php?type=individual','_blank');"/></td>
+                           <!--<apex:outputlink value="/{!oAppointment.Name}">{!oAppointment.Id}</apex:outputlink>-->
+                           <!--<td><apex:outputLink value="https://cs3.salesforce.com/01p7000000062BAAAY"> {!obj.names}</apex:outputlink></td>-->
+                           <!--<td width ="25%"><a>/{!obj.Id2}</a></td>-->
+                            <!--<td width ="25%">{!obj.}</td>--->
+                            <td width ="25%">{!obj.CreatedBy}</td>
+                            <td width ="25%">{!obj.LastModifedBy}</td>
+                            <td width ="25%">{!obj.LastModifiedByDate}</td>
+                            
+                        </tr>
+                    </apex:repeat>
+                    </table>
+                     <br/>
+                     <br/>
+                     <br/>
+                     <br/>
+                    
+                
+                 </div>
+            </apex:repeat>
+           
+               
+
+          
+        
+        </div>
+    </div>
+<br/>
+<br/>
+
+
+
+
+</apex:form>
+</body>
+</apex:page>

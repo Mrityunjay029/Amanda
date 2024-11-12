@@ -1,0 +1,150 @@
+<apex:page sidebar="false" controller="ImpactAnalysis_Controller"   showHeader="false" applyHtmlTag="false" readonly="true"   >
+    <head>
+        <style type="text/css"  >
+           
+            
+            table,th,td {
+           
+            border-color: #000000;
+           
+            border-collapse: collapse;
+            width: 100%;
+            border: 1px solid black;
+
+
+            }
+
+            th, td {
+            text-align: left;
+            padding: 8px;
+            }
+
+            
+            th {
+           
+            background-color:#00ccff;
+            color:white;
+
+            }
+            h2{
+            color:#006680;
+
+            }
+            
+           
+        </style>
+    </head>
+    <body>
+        <apex:form ><br/>
+        
+            <div >
+                <br/>
+                   <apex:commandbutton value="Save Analysis" action="{!callpageredirect}"  >
+                                 <apex:param assignTo="{!buttonname}" name="lindex" value="save analysis"   />
+                             </apex:commandbutton>  
+                             <br/>
+                             <br/>
+                             
+                     <table style="table-layout:fixed;" >
+                        <tr >
+                            <th>Field Name</th>  
+                            <th>Page Layout</th>                     
+                        </tr>
+                        <tr >
+                            <td>Name</td>
+                            <td>
+                            <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">Account Layout</span></apex:outputlink> </span>
+                            <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">  ,  Account (Support) Layout</span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Account Number
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">Account Layout</span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                Account Source
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">Account (Support) Layout</span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                               Annual Revenue
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">Account (Support) Layout</span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                    
+                                SLA
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">Account (Sales) Layout</span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                    
+                               Upsell Opportunity
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;"></span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                    
+                                    
+                            Number of Locations
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">Account (Marketing) Layout</span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                     
+                         <tr>
+                            <td>
+                                    
+                                    
+                            Customer Priority
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;"></span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                         <tr>
+                            <td>
+                                    
+                                    
+                                
+                                SLA Expiration Date
+                            </td>
+                            <td>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">Account (Sales) Layout</span></apex:outputlink> </span>
+                                <span><apex:outputlink value="https://amandalightning-dev-ed.my.salesforce.com/layouteditor/layoutEditor.apexp?type=Account&lid=00h280000038NTrAAM"  target="_blank"><span style="font-size:15px;">, Account (Support) Layout</span></apex:outputlink> </span>
+                            
+                            </td>
+                        </tr>
+                     
+                     </table>
+                    
+            </div><br/><br/>                    
+        </apex:form>
+    </body>
+</apex:page>

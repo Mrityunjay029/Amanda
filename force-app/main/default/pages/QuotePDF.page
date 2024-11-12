@@ -1,0 +1,104 @@
+<apex:page sidebar="false" showHeader="false" standardStylesheets="false"  applyHtmlTag="false" readOnly="true" renderAs="pdf"  >
+         <head>
+            <style> 
+            tr{page-break-inside:avoid; page-break-after:auto
+            
+                
+            }
+                table{
+                 
+                border-style: solid;
+                border-color: #000000;
+                background-color: #ffffff;
+                border-collapse:collapse;
+                border-width: 2px;
+                }
+                .gridtable td {
+                border-width: 2px;
+                padding: 5px;
+                border-style: solid;
+                border-color: #000000;
+                background-color: #ffffff;
+                border-collapse:collapse;
+                border-width: 2px;
+                }
+                body {font-family: Arial Unicode MS;}
+                th {
+                padding: 2px;
+                background-color: #747e96;
+                color: white;
+                border-style: solid;
+                border-color: #000000;
+                border-collapse:collapse;
+                border-width: 2px;
+                }
+                .gridtable2 td {
+                border-width: 2px;
+                border-style: solid;
+                border-color: #000000;
+                background-color: #ffffff;
+                border-collapse:collapse;
+                border-width: 2px;
+                }
+                .gridtable2 th {
+                background-color: #afeeee;
+                color: black;
+                border-style: solid;
+                border-color: #000000;
+                border-collapse:collapse;
+                border-width: 2px;
+                }
+                
+                font { font-family: 'Salesforce Sans',Arial,sans-serif;
+    font-size: .8125rem;
+
+                }
+                @page{ 
+                size:landscape;
+                /* Put page numbers in the top right corner of each
+                page in the pdf document. */
+                
+                @bottom-right {
+                content: "Page " counter(page);
+                }
+                }
+                }      
+            </style>
+        </head>
+        
+      <body>
+           
+                    
+            <table Class="gridtable" cellpadding="0" cellspacing="0" style="width: 100%">
+                <tr>
+                    <th  align="center">Part Number</th>
+                    <th  align="center">Quoted Line Item</th>
+                    <th  align="center">Description</th>                    
+                    <th  align="center">Start Date</th>
+                    <th  align="center">Quantity</th>
+                    <th  align="center">Unit</th>
+                    <th  align="center">Unit Price</th>
+                    <th  align="center">Discount</th>
+                    
+                    
+                   
+                </tr>
+                
+                
+                    <tr stye="font-size:13px;">
+                        <td> kjkhkj</td>
+                        <td>kjhkjhk</td>
+                        <td>kkhkj</td>
+                        <td>
+                        knkjkj 
+                        </td>   
+                        <td>bjhhjg</td>
+                        <td>hjhjhjbkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkkk</td>
+                        <td></td>
+                        <td>jkkhkjk</td>
+                       
+                    </tr>
+                                       
+            </table><br/><br/>
+    </body>
+</apex:page>
